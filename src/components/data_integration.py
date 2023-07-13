@@ -9,6 +9,9 @@ from dataclasses import dataclass
 
 from src.components.data_transformation import DataTransformation
 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
 #its a fancy way of not using __init__ (specially when we are nothaving any function in our class)
 
 @dataclass
@@ -24,7 +27,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Reading dataset ")
         try:
-            df = pd.read_csv("notebook\data\stud.csv")
+            df = pd.read_csv("notebook\data\stud.csv")  #need advancements could use dbs
             logging.info("read the dataframe as dataset")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok = True)
@@ -51,6 +54,9 @@ if __name__ == "__main__":
     train_data,test_data=obj.initiate_data_ingestion()
     data_transformation=DataTransformation()
     train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+
+    modeltrainer=ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
 
 
 
